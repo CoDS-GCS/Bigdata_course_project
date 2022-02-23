@@ -40,7 +40,7 @@ Both applications can be classified as supervised learning problems. The questio
 
 2) For Provenance graph application:
 
-  a. We use the GNN (Graph Neural Network) algorithm to predict similarity, with the GCN (Graph Convolutional Networks) algorithm for node embedding. Besides, we aim to use the RGCN (RelationalGraph Convolutional Networks) algorithm and compare results between both embedding algorithms. 
+  a. We use the GNN (Graph Neural Network) algorithm to predict similarity, with the GCN (Graph Convolutional Networks) algorithm for node embedding. Besides, we aim to use the RGCN (Relational Graph Convolutional Networks) algorithm and compare results between both embedding algorithms. 
 
   b. We will develop parallelized implementation to process graph pairs simultaneously. Then compare performance between the sequential and the parallelized models.  
 
