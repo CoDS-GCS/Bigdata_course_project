@@ -1,14 +1,13 @@
 # Bigdata_course_project (Scalable Graph Analytics)
 ### Team 26: Ahmed Aly, Reham Omar, Ishika Dhall, Maria Manzoor
 
-
 ## Introduction:
 
 The goal of this project is to search and implement the techniques needed to optimize the performance of workloads on graphs. Our project will be focussing on two kinds of workloads: 
 1) Huge amount of lightweight workloads, where a huge number of requests are to be sent to a graph and these requests are lightweight processes, 
 2) A few amounts of heavy workloads, where a few numbers of requests are to be sent to a graph but these requests will need heavy computations. 
 
-These two types of workloads were initiated from the challenges we faced in two different applications. The first application relates to question answering on top of knowledge graphs where a question is given as an input to the system and the outputs are the answers extracted from the knowledge graph. A QA system generally consists of 3 modules that work together to form a pipeline where the first module parses the question to understand the key information, the second module maps the extracted information to vertices and edges in a knowledge graph and the last module creates a query, executes it and returns the answer to the user. In this pipeline, the second module is related to the first workload where mapping the key information from a question to the knowledge graph needs to perform multiple lightweight tasks. Currently, a performance issue needs to be solved wherein the average time taken to run the QA system on a benchmark is 4.5 hours (16 seconds per question). The second application relates to detecting hidden attacks in provenance graphs of kernel logs by getting similarities between 2 graphs: provenance and the attack query graph. Provenance graphs are huge and continuously growing graphs, so it requires time and memory efficiency. During our experimentations, we found that the average time taken for pre-processing a provenance graph of one day is 4 hours, and a provenance graph of 4 days with 1.25M nodes and 3.5M edges consumed around 43 GB RAM. The system crashes even before the completion of pre-processing. 
+These two types of workloads were initiated from the challenges we faced in two different applications. The first application relates to question answering on top of knowledge graphs where a question is given as an input to the system and the outputs are the answers extracted from the knowledge graph. A QA system pipeline generally consists of 3 modules where the first module parses the question to understand the key information, the second module maps the extracted information to vertices and edges in a knowledge graph and the last module creates a query, executes it and returns the answer to the user. Here, the second module relates to the first workload where mapping the key information from a question to the knowledge graph needs to perform many lightweight tasks. Currently, the average time taken to run the QA system on a benchmark is 4.5 hours (16 seconds per question) which needs to be improved. The second application relates to detecting hidden attacks in provenance graphs of kernel logs by getting similarities between 2 graphs: provenance and the attack query graph. Provenance graphs are huge and fast-growing graphs, so it requires time and memory efficiency. During experimentations, the average time taken for pre-processing a provenance graph of one day was found to be around 4 hours, and a provenance graph of 4 days with 1.25M nodes and 3.5M edges consumed around 43 GB RAM. The system crashes even before the completion of pre-processing. 
 
 We aim to solve this by finding the answers to the following questions: 
 1) What are the best scalability techniques to process graph datasets efficiently from time and memory perspectives?  
@@ -50,4 +49,5 @@ Both applications can be classified as supervised learning problems. The questio
 For both applications, our most important metric will be the performance with respect to time and memory, but each application has its own evaluation metric to evaluate the correctness of the results
 1) Question Answering: Precision, Recall, and F1 score
 2) Provenance Graph:   Mean Square Error, Precision at k where k = (1,5,10,20)
+
 
