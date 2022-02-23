@@ -34,9 +34,9 @@ Both applications can be classified as supervised learning problems. The questio
 
 1) For question answering application:
 
-a. The first module uses a fine-tuned BART model (an encoder-decoder algorithm) for question understanding. Output of this module is then given to the second module for linking it to a knowledge graph.
+a. The first module uses a fine-tuned BART model (an encoder-decoder algorithm) for question understanding. The output of this module is then given to the second module for linking.
 
-b. For second module, the existing algorithms tend to create dictionaries from the knowledge graph  carrying information about vertices and predicates which is used to perform the mapping from the question to the KG. However, we try to fetch the required vertices and the connected relationships from the knowledge graph by creating several simple queries.
+b. For second module, the existing algorithms tend to create dictionaries from the knowledge graph carrying information about vertices and predicates which is used to map the question to the knowledge graph. However, we try to skip this by fetching the required vertices and the connected relationships from the knowledge graph by creating several simple queries
 
 2) For Provenance graph application:
 
