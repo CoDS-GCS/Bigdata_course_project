@@ -19,7 +19,7 @@ We aim to solve this by finding the answers to the following questions:
 We will deal with two datasets:
 
 1) Question Answering:
-The dataset for this application is the DBpedia knowledge graph, It contains information extracted from Wikipedia pages represented in a graph form. This graph describes 6.0 million entities, out of which 5.2 million are classified in a consistent ontology, including 1.5M persons, 810k places, 135k music albums, etc. To evaluate the system's performance on this graph, there are 2 benchmark datasets that contain the ground truth for answering questions on Dbpedia (QALD-9 and LCQUAD-1.0)
+The dataset for this application is the DBpedia knowledge graph which contains information extracted from Wikipedia pages represented in graph form. This graph describes 6 million entities, where 5.2 million are classified in a consistent ontology, including 1.5M persons, 810k places, 135k music albums, etc. To evaluate the system's performance on this graph, 2 benchmark datasets containing the ground truth for answering questions on Dbpedia (QALD-9 and LCQUAD-1.0) will be used.
 
 2) Provenance graphs:
 The dataset for this application is DARPA TC 3. A provenance graph is a representation of kernel audit logs that capture all system events in the operating system. DARPA TC 3 consists of two weeks of kernel logs for five different operating systems (Linux 12, Linux 14, Windows, FreeBSD, Android). Logs contain simulated attacks hidden within many benign backgrounds. A provenance graph of one day may consist of 100K nodes on average.
@@ -34,7 +34,7 @@ Both applications can be classified as supervised learning problems. The questio
 
 1) For question answering application:
 
-  a. Currently, the algorithms existing for handling the second module (that we are concerned with) tend to get the knowledge graph, and create dictionaries from it. These dictionaries carry the information about vertices and predicates in the graph which are to be used to perform the mapping from the question to the KG.
+  a. Currently, the algorithms existing for handling the second module of QA (which needs improvement) tend to get the knowledge graph, and create dictionaries from it. These dictionaries carry the information about vertices and predicates in the graph which are to be used to perform the mapping from the question to the KG.
 
   b. On the other hand, we are trying to bypass this indexing step. That's why we replaced the steps of building these dictionaries with trying to fetch only the information that we need from the knowledge graph. We do that by creating several simple queries to fetch the required vertices and then fetch the relations connected to them.
 
