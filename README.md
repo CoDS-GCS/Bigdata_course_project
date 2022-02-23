@@ -1,4 +1,6 @@
 # Bigdata_course_project
+# Scalable Graph Analytics
+### Team 26: Ahmed Aly, Reham Omar, Ishika Dhall, Maria Manzoor
 
 
 ## Introduction:
