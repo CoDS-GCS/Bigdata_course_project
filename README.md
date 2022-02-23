@@ -34,9 +34,9 @@ Both applications can be classified as supervised learning problems. The questio
 
 1) For question answering application:
 
-  a. Currently, the algorithms existing for handling the second module of QA (which needs improvement) tend to get the knowledge graph, and create dictionaries from it. These dictionaries carry the information about vertices and predicates in the graph which are to be used to perform the mapping from the question to the KG.
+a. The first module uses a fine-tuned BART model (an encoder-decoder algorithm) for question understanding. Output of this module is then given to the second module for linking it to a knowledge graph.
 
-  b. On the other hand, we are trying to bypass this indexing step. That's why we replaced the steps of building these dictionaries with trying to fetch only the information that we need from the knowledge graph. We do that by creating several simple queries to fetch the required vertices and then fetch the relations connected to them.
+b. For second module, the existing algorithms tend to create dictionaries from the knowledge graph  carrying information about vertices and predicates which is used to perform the mapping from the question to the KG. However, we try to fetch the required vertices and the connected relationships from the knowledge graph by creating several simple queries.
 
 2) For Provenance graph application:
 
