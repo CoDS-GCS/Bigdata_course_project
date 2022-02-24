@@ -18,7 +18,7 @@ We will deal with two datasets:
 The dataset is the DBpedia knowledge graph which contains information extracted from Wikipedia pages represented in graph form. This graph describes 6 million entities, where 5.2 million are classified in a consistent ontology, including 1.5M persons, 810k places, 135k music albums, etc. To evaluate the system's performance on this graph, 2 benchmark datasets containing the ground truth for questions on Dbpedia (QALD-9 and LCQUAD-1.0) will be used.
 
 2) Provenance graphs:
-The dataset is DARPA TC 3. A provenance graph is a representation of kernel audit logs that capture all system events in the operating system. DARPA TC 3 consists of two weeks of kernel logs for five different operating systems (Linux 12, Linux 14, Windows, FreeBSD, Android). Logs contain simulated attacks hidden within many benign backgrounds. A provenance graph of one day may consist of 100K nodes on average.
+The dataset is DARPA TC 3. A provenance graph is a representation of kernel audit logs that capture all system events in the operating system. DARPA TC 3 consists of two weeks of kernel logs for five different operating systems (Linux 12, Linux 14, Windows, FreeBSD, Android). Logs contain simulated attacks hidden within many benign backgrounds. A provenance graph of one day may consist of 100K nodes on average. The provenacne graph is NetworkX multiDiGraph property graph which consist of three types of nodes (Process, File, IP Address) and four edge types (Access, Launch, Write, Connect To) with various types of attributes such as {command line, file name, full path, hashes, extension}.
 
 ## Model Design:
 
