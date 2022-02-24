@@ -32,7 +32,7 @@ a) The first module uses a fine-tuned BART model (Bidirectional and Auto-Regress
 
 b) For the second module, the existing algorithms tend to create dictionaries about vertices and predicates which is used to map the question to the knowledge graph. However, we try to skip this step by fetching the required vertices and the connected relationships from the knowledge graph using several simple queries which will be parallelized.
 
-2) For Provenance graph application:
+2) For Provenance graph:
 
 a) We use the GNN (Graph Neural Network) algorithm to predict similarity, with the GCN (Graph Convolutional Networks) algorithm for node embedding. Besides, we aim to use the RGCN (Relational Graph Convolutional Networks) algorithm and compare results between both embedding algorithms. 
 
