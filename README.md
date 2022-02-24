@@ -8,8 +8,7 @@ The goal of this project is to search and implement the techniques required to o
 1) Huge amount of lightweight workloads, where a huge number of requests are to be sent to a graph and these requests are lightweight processes.
 2) Few amounts of heavy workloads, where a few numbers of requests are to be sent to a graph but these requests will need heavy computations. 
 
-These two types of workloads can be investigated with two different applications. The first application is question answering over knowledge graphs. QA system pipeline consists of 3 modules where the first module parses the question for question understanding, the second module maps the extracted information to vertices and edges in a knowledge graph and the last module creates a query and executes it. The second module relates to the first workload where mapping the key information from a question to the knowledge graph needs performing multiple lightweight tasks. Currently, the system is not efficient as the average time taken to run the system on a benchmark is 4.5 hours (16 seconds per question) which needs to be improved. The second application relates to detecting hidden attacks in provenance graphs of kernel logs by getting similarities between 2 graphs: provenance and attack query graph. Provenance graphs are huge and fast-growing graphs, which requires time and memory efficiency. During experimentations, the average time taken for pre-processing a provenance graph of one day is around 4 hours, and a provenance graph of 4 days with 1.25M nodes and 3.5M edges consumed around 43 GB RAM. The system crashes even before the completion of pre-processing. 
-
+These two types of workloads can be investigated with two different applications. The first application is question answering over knowledge graphs. QA system pipeline consists of 3 modules where the first module parses the question for question understanding, the second module maps the extracted information to vertices and edges in a knowledge graph and the last module creates a query and executes it. The second module relates to the first workload where mapping the information from a question to the knowledge graph requires multiple lightweight processes. Currently, the system is not efficient as the average time taken to run the system on a benchmark is 4.5 hours (16 seconds per question). The second application relates to detecting hidden attacks in provenance graphs of kernel logs by getting similarities between 2 graphs: provenance and attack query graph. Provenance graphs are huge and fast-growing, so they require time and memory efficiency. The average time taken for pre-processing a provenance graph of one day is around 4 hours, and a provenance graph of 4 days with 1.25M nodes and 3.5M edges consumed around 43 GB RAM. The system crashes even before the completion of pre-processing. 
 
 ## Datasets:
 
@@ -29,9 +28,9 @@ Both applications can be classified as supervised learning problems. The questio
 
 1) For question answering:
 
-a) The first module uses a fine-tuned BART model (an encoder-decoder model) for question understanding. The output of this module is then given to the second module for linking.
+a) The first module uses a fine-tuned BART model (Bidirectional and Auto-Regressive Transformer) for question understanding. The output of this module is then given to the second module for linking.
 
-b) For second module, the existing algorithms tend to create dictionaries from the knowledge graph carrying information about vertices and predicates which is used to map the question to the knowledge graph. However, we try to skip this by fetching the required vertices and the connected relationships from the knowledge graph by creating several simple queries.
+b) For the second module, the existing algorithms tend to create dictionaries about vertices and predicates which is used to map the question to the knowledge graph. However, we try to skip this step by fetching the required vertices and the connected relationships from the knowledge graph using several simple queries which will be parallelized.
 
 2) For Provenance graph application:
 
@@ -41,7 +40,7 @@ b) We will develop parallelized implementation to process graph pairs simultaneo
 
 ## Evaluation metrics: 
 
-For both applications, our most important metric would be the performance with respect to time and memory, but each application has its own evaluation metric as well to evaluate the correctness of the results:
+For both applications, our most important metric would be the system's performance with respect to time and memory. Also, each application has its own evaluation metric to evaluate the correctness of the results:
 1) Question Answering: Precision, Recall, and F1 score
 2) Provenance Graph:   Mean Square Error, Precision at k where k = (1,5,10,20)
 
@@ -49,4 +48,3 @@ For both applications, our most important metric would be the performance with r
 The questions we aim to answer:
 1) What are the best scalability techniques to process graph datasets efficiently from time and memory perspectives?  
 2) Can they be applied on graphs of different nature, or are they domain-specific?
-
