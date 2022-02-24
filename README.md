@@ -38,7 +38,7 @@ a) We use the GNN (Graph Neural Network) algorithm to predict similarity, with t
 
 b) We will develop parallelized implementation to process graph pairs simultaneously. Then compare performance between the sequential and the parallelized models.  
 
-## Evaluation metrics: 
+## Evaluation Metrics: 
 
 For both applications, our most important metric would be the system's performance with respect to time and memory. Also, each application has its own evaluation metric to evaluate the correctness of the results:
 1) Question Answering: Precision, Recall, and F1 score
