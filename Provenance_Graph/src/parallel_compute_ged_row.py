@@ -18,10 +18,10 @@ def ensure_dir(file_path):
 
 def main():
     start_running_time = time.time()
-    training_file = r"/shared_mnt/GnnDeepHunter/dataset/atlas/simgnn/hot_encoding/rgcn_exp/dgl/training_dataset.pt"
+    training_file = r"/Provenance_Graph/dataset/training_dataset.pt"
     with open(training_file, 'rb') as f:
         training_dataset = pickle.load(f)
-    testing_file = r"/shared_mnt/GnnDeepHunter/dataset/atlas/simgnn/hot_encoding/rgcn_exp/dgl/testing_dataset.pt"
+    testing_file = r"/Provenance_Graph/dataset/testing_dataset.pt"
     with open(testing_file, 'rb') as f:
         testing_dataset = pickle.load(f)
     print("Training Samples", len(training_dataset))
@@ -45,12 +45,9 @@ def main():
                 distance_bipartite, _, _ = graph_edit_distance(g1, g2, algorithm='bipartite')
                 distance_hausdorff, _, _ = graph_edit_distance(g1, g2, algorithm='hausdorff')
                 distance = min(distance_beam, distance_bipartite, distance_hausdorff)
-#                print("Distance between ", i, j," is:", distance)
                 geds_sample.append((i, j, distance))
                 ged_matrix_temp[i, j] = distance
                 ged_matrix_temp[j, i] = distance
-#                if j > 3:
-#                    break
         else:
             for j in range(n_training):
                 g2 = graph_data[j]
@@ -58,13 +55,12 @@ def main():
                 distance_bipartite, _, _ = graph_edit_distance(g1, g2, algorithm='bipartite')
                 distance_hausdorff, _, _ = graph_edit_distance(g1, g2, algorithm='hausdorff')
                 distance = min(distance_beam, distance_bipartite, distance_hausdorff)
-#                print("Distance between ", i, j," is: ",distance)
                 geds_sample.append((i, j, distance))
                 ged_matrix_temp[i, j] = distance
-#                if j > 3:
-#                    break
         print("Done: ", i,"in %s seconds" % (time.time() - start_time))
-        ged_file = "/shared_mnt/GnnDeepHunter/dataset/atlas/simgnn/hot_encoding/rgcn_exp/ged_"+str(i)+".pt"
+
+        #Store each row as a checkpinting technique
+        ged_file = "/Provenance_Graph/dataset/ged_"+str(i)+".pt"
         ensure_dir(ged_file)
         with open(ged_file, 'wb') as f:
             pickle.dump(ged_matrix_temp, f)
@@ -72,8 +68,6 @@ def main():
         return geds_sample
 
     list_indices = list(range(len(graph_data)))
-#    list_indices = list(range(9))
-#    list_indices.append(800)
     graph_dask = db.from_sequence(list_indices, npartitions=10)
     graph_GEDs = graph_dask.map(lambda x: ged_distance_dask(x)).compute()
     graph_GEDs = [sample for geds_sample in graph_GEDs for sample in geds_sample]
@@ -82,7 +76,7 @@ def main():
         if i < n_training:
             ged_matrix[j, i] = d
 
-    ged_file = "/shared_mnt/GnnDeepHunter/dataset/atlas/simgnn/hot_encoding/rgcn_exp/ged_matrix.pt"
+    ged_file = "/Provenance_Graph/dataset/ged_matrix.pt"
     ensure_dir(ged_file)
     with open(ged_file, 'wb') as f:
         pickle.dump(ged_matrix, f)
@@ -90,6 +84,6 @@ def main():
 
     print("---Total Running Time : %s seconds ---" % (time.time() - start_running_time))
 
-
 if __name__ == "__main__":
     main()
+

@@ -27,10 +27,10 @@ def combination_m(n_dataset,n_training):
 
 def main():
     start_running_time = time.time()
-    training_file = r"/shared_mnt/GnnDeepHunter/dataset/atlas/simgnn/hot_encoding/rgcn_exp/dgl/training_dataset.pt"  
+    training_file = r"/Provenance_Graph/dataset/training_dataset.pt"  
     with open(training_file, 'rb') as f:
         training_dataset = pickle.load(f)
-    testing_file = r"/shared_mnt/GnnDeepHunter/dataset/atlas/simgnn/hot_encoding/rgcn_exp/dgl/testing_dataset.pt"  
+    testing_file = r"/Provenance_Graph/dataset/testing_dataset.pt"  
     with open(testing_file, 'rb') as f:
         testing_dataset = pickle.load(f)
     print("Training Samples", len(training_dataset))
@@ -60,7 +60,7 @@ def main():
         if i < n_training:
             ged_matrix[j,i] = d
 
-    ged_file = "/shared_mnt/GnnDeepHunter/dataset/atlas/simgnn/hot_encoding/rgcn_exp/ged_matrix.pt"
+    ged_file = "/Provenance_Graph/dataset/ged_matrix.pt"
     ensure_dir(ged_file)
     with open(ged_file, 'wb') as f:
         pickle.dump(ged_matrix, f)
