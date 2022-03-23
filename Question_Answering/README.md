@@ -6,7 +6,7 @@ Question Answering in general has three phases:
 2. Entity and Relation Linking 
 3. Filtering
 
-![](../EntityVertexLinking.png)
+./EntityVertexLinking.png
 
 Challenges:
 1. Memory constraints
