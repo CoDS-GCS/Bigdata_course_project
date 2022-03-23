@@ -6,7 +6,7 @@ Question Answering in general has three phases:
 2. Entity and Relation Linking 
 3. Filtering
 
-./EntityVertexLinking.png
+![](./EntityVertexLinking.png)
 
 Challenges:
 1. Memory constraints
@@ -18,5 +18,6 @@ Solution:
    1. map()
    2. aggregation()
    3. limit()
-   4. max()
-   5. orderby()
+   4. min()
+   5. max()
+   6. orderby()
