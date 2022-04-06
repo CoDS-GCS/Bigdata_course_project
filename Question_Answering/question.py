@@ -19,7 +19,7 @@ from termcolor import cprint
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 # logger = logging.getLogger(__name__)
-model_path = '/home/rehamomar/PycharmProjects/BARTInput/output_pred21_8_30/'
+model_path = '/content/output_pred21_8_30/'
 model = AutoModelForSeq2SeqLM.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
@@ -131,17 +131,17 @@ class Question:
             if '</s>' in triple_str:
                 subj_start = triple_str.index('</s>')
             else:
-                print("Triple ", triple_str, "has no subject")
+                # print("Triple ", triple_str, "has no subject")
                 continue
             if '<p>' in triple_str:
                 pred_start = triple_str.index('<p>')
             else:
-                print("Triple ", triple_str, "has no predicate")
+                # print("Triple ", triple_str, "has no predicate")
                 continue
             if '<o>' in triple_str:
                 obj_start = triple_str.index('<o>')
             else:
-                print("Triple ", triple_str, "has no Object")
+                # print("Triple ", triple_str, "has no Object")
                 continue
 
             subject = triple_str[subj_start + 4: pred_start].strip() if triple_str.startswith("</s>") else triple_str[: pred_start].strip()

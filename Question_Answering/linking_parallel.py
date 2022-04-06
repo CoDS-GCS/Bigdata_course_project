@@ -20,8 +20,6 @@ class ParallelLinking:
         self.sparql_end_point = sparql_end_point
         self.n_limit_EQuery = n_limit_EQuery
         self.v_uri_scores = defaultdict(float)
-        self.question = ''
-        self.spark = self.init_spark()
 
     def make_keyword_unordered_search_query_with_type(self, keywords_string: str, limit=500):
         escape = ['’s']
@@ -82,11 +80,6 @@ class ParallelLinking:
         else:
             return scores
 
-    @staticmethod
-    def parallel_computing_similarity(word, word_list, spark):
-        words_rdd = spark.sparkContext.parallelize(word_list)
-        scores_rdd = words_rdd.map(lambda x: ParallelLinking.n_similarity(word.lower().split(), x.lower().split()))
-        return scores_rdd.collect()
 
     @staticmethod
     def n_similarity( mwe1, mwe2):
@@ -104,7 +97,6 @@ class ParallelLinking:
     def __get_chosen_URIs_for_relation(self, relation: str, uris: list, names: list):
         if not uris:
             return uris
-        # scores = self.__class__.parallel_computing_similarity(relation, names, self.spark)
         scores = self.__class__.__compute_semantic_similarity_between_single_word_and_word_list(relation, names)
         l1, l2 = list(zip(*uris))
         URIs_with_scores = list(zip(l1, l2, scores))
@@ -181,21 +173,21 @@ class ParallelLinking:
     #             uris.extend(URIs_true)
     #             names.extend(names_true)
 
-    def predicate_linking(self, input):
+    def predicate_linking(self, input, question):
         (source, destination, key, relation) = input
         if not relation:
             return
-        source_URIs = self.question.query_graph.nodes[source]['uris']
-        destination_URIs = self.question.query_graph.nodes[destination]['uris']
+        source_URIs = question.query_graph.nodes[source]['uris']
+        destination_URIs = question.query_graph.nodes[destination]['uris']
         combinations = self.get_combination_of_two_lists(source_URIs, destination_URIs, with_reversed=False)
 
         uris, names = list(), list()
         for comb in combinations:
             if self.is_variable(source) or self.is_variable(destination):
                 if self.is_variable(source):
-                    uris, names = self.question.query_graph.nodes[destination]['vertex'].get_predicates()
+                    uris, names = question.query_graph.nodes[destination]['vertex'].get_predicates()
                 else:
-                    uris, names = self.question.query_graph.nodes[source]['vertex'].get_predicates()
+                    uris, names = question.query_graph.nodes[source]['vertex'].get_predicates()
             else:
                 URIs_false, names_false, URIs_true, names_true = [], [], [], []
                 if len(source_URIs) > 0 and len(destination_URIs) > 0:
@@ -223,20 +215,19 @@ class ParallelLinking:
             # self.question.query_graph[source][destination][key]['uris'].extend(URIs_chosen)
 
     def extract_possible_V_and_E(self, question):
-        self.question = question
-        # spark = self.init_spark()
-        nodes = self.question.query_graph
-        entities_rdd = self.spark.sparkContext.parallelize(nodes)
+        spark = self.init_spark()
+        nodes = question.query_graph
+        entities_rdd = spark.sparkContext.parallelize(nodes)
         vertices = entities_rdd.map(lambda x: (x, self.vertex_linking(x)))
         result = vertices.collect()
         for entry in result:
             if entry[1] is not None:
                 entity = entry[0]
-                self.question.query_graph.nodes[entity]['uris'].extend(entry[1][0])
-                self.question.query_graph.nodes[entity]['vertex'] = entry[1][1]
-        edges = self.question.query_graph.edges(data='relation', keys=True)
-        edges_rdd = self.spark.sparkContext.parallelize(edges)
-        predicates = edges_rdd.map(lambda x: (x, self.predicate_linking(x)))
+                question.query_graph.nodes[entity]['uris'].extend(entry[1][0])
+                question.query_graph.nodes[entity]['vertex'] = entry[1][1]
+        edges = question.query_graph.edges(data='relation', keys=True)
+        edges_rdd = spark.sparkContext.parallelize(edges)
+        predicates = edges_rdd.map(lambda x: (x, self.predicate_linking(x, question)))
         result = predicates.collect()
         for entry in result:
             self.question.query_graph[entry[0][0]][entry[0][1]][entry[0][2]]['uris'].extend(entry[1])
