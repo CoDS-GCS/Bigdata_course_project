@@ -4,7 +4,7 @@ import requests
 import os
 import re
 from urllib.parse import urlparse
-from .sparqls import *
+from sparqls import *
 from termcolor import cprint
 
 class EndPoint:
@@ -144,7 +144,7 @@ class EndPoint:
         return filtered_uris, filtered_names
 
     def execute_sparql_query_and_get_uri_and_name_lists(self, q):
-        cprint(f"== SPARQL Q Find E: {q}")
+        # cprint(f"== SPARQL Q Find E: {q}")
         result = json.loads(self.evaluate_SPARQL_query(q))
         return self.extract_predicate_names(result['results']['bindings'])
 

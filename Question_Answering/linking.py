@@ -5,23 +5,23 @@ from itertools import chain, product, zip_longest
 from collections import defaultdict
 from termcolor import cprint
 
-from .vertex import Vertex
-from .EndPoint import EndPoint
+from vertex import Vertex
+from EndPoint import EndPoint
 
 formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 file_handler = logging.FileHandler('linking.log')
 file_handler.setFormatter(formatter)
 file_handler.setLevel(logging.INFO)
-logger.addHandler(file_handler)
-logger.setLevel(logging.INFO)
-logger.propagate = False
+# logger.addHandler(file_handler)
+# logger.setLevel(logging.INFO)
+# logger.propagate = False
 
 
 class Linking:
-    def __init__(self,  sparql_end_point: EndPoint, n_limit_EQuery: int, n_max_Es: int = 10):
-        self.n_max_Vs = 1
+    def __init__(self,  sparql_end_point: EndPoint, n_limit_EQuery: int, n_max_Es: int = 10, n_max_Vs: int = 1):
+        self.n_max_Vs = n_max_Vs
         self.n_max_Es = n_max_Es
         self.vertices = list()
         self.predicates_uris = list()
@@ -95,7 +95,7 @@ class Linking:
         mwe2 = ' '.join(mwe2)
 
         data = {"word1": mwe1, "word2": mwe2}
-        r = requests.post('http://127.0.0.1:5050/', json=data)
+        r = requests.post('http://206.12.95.86:5050/', json=data)
         return r.json()['similarity']
 
     def remove_duplicates(self, sequence):
@@ -122,12 +122,12 @@ class Linking:
             if self.is_variable(entity):
                 continue
             entity_query = self.make_keyword_unordered_search_query_with_type(entity, limit=400)
-            cprint(f"== SPARQL Q Find V: {entity_query}")
+            # cprint(f"== SPARQL Q Find V: {entity_query}")
 
             try:
                 uris, names = self.sparql_end_point.get_names_and_uris(entity_query)
             except:
-                logger.error(f"Error at 'extract_possible_V_and_E' method with v_query value of {entity_query} ")
+                # logger.error(f"Error at 'extract_possible_V_and_E' method with v_query value of {entity_query} ")
                 continue
 
             scores = self.__compute_semantic_similarity_between_single_word_and_word_list(entity, names)
@@ -184,6 +184,6 @@ class Linking:
             else:
                 URIs_chosen = self.__get_chosen_URIs_for_relation(relation, uris, names)
                 question.query_graph[source][destination][key]['uris'].extend(URIs_chosen)
-        else:
-            logger.info(f"[GRAPH NODES WITH URIs:] {question.query_graph.nodes(data=True)}")
-            logger.info(f"[GRAPH EDGES WITH URIs:] {question.query_graph.edges(data=True)}")
+        # else:
+        #     logger.info(f"[GRAPH NODES WITH URIs:] {question.query_graph.nodes(data=True)}")
+        #     logger.info(f"[GRAPH EDGES WITH URIs:] {question.query_graph.edges(data=True)}")

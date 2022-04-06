@@ -3,7 +3,7 @@ from itertools import zip_longest
 
 import requests
 
-from .EndPoint import EndPoint
+from EndPoint import EndPoint
 
 
 class Vertex:
