@@ -1,0 +1,16 @@
+{
+  "ipv4addr": [
+    "192.168.223.3"
+  ],
+  "fqdn": [
+    "0xalsaheel.com"
+  ],
+  "filename": [
+    "payload.exe",
+    "msf.rtf",
+    "msf.exe",
+    "msf.doc",
+    "aalsahee/index.html",
+    "pypayload.exe"
+  ]
+}
