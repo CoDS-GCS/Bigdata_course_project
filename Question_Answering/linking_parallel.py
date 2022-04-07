@@ -115,22 +115,16 @@ class ParallelLinking:
     def is_variable(self, label):
         return 'var' in label
 
-    # TODO: what if we have multiple vertices
     def vertex_linking(self, entity):
         if self.is_variable(entity):
             return
         entity_query = self.make_keyword_unordered_search_query_with_type(entity, limit=400)
-        # cprint(f"== SPARQL Q Find V: {entity_query}")
         try:
             uris, names = self.sparql_end_point.get_names_and_uris(entity_query)
         except:
-            # logger.error(f"Error at 'extract_possible_V_and_E' method with v_query value of {entity_query} ")
             return
 
-        # TODO parallelize similarity calculation
-        # scores = self.parallel_computing_similarity(entity, names, self.spark)
         scores = self.__compute_semantic_similarity_between_single_word_and_word_list(entity, names)
-
         URIs_with_scores = list(zip(uris, scores))
         URIs_with_scores.sort(key=operator.itemgetter(1), reverse=True)
         self.v_uri_scores.update(URIs_with_scores)
@@ -142,36 +136,6 @@ class ParallelLinking:
         updated_vertex = Vertex(self.n_max_Vs, URIs_sorted, self.sparql_end_point, self.n_limit_EQuery)
         URIs_chosen = updated_vertex.get_vertex_uris()
         return URIs_chosen, updated_vertex
-        # self.question.query_graph.nodes[entity]['uris'].extend(URIs_chosen)
-        # self.question.query_graph.nodes[entity]['vertex'] = updated_vertex
-
-    # def parallel_similarity(self, comb, source, destination, source_URIs, destination_URIs):
-    #     if self.is_variable(source) or self.is_variable(destination):
-    #         if self.is_variable(source):
-    #             uris, names = self.question.query_graph.nodes[destination]['vertex'].get_predicates()
-    #         else:
-    #             uris, names = self.question.query_graph.nodes[source]['vertex'].get_predicates()
-    #     else:
-    #         URIs_false, names_false, URIs_true, names_true = [], [], [], []
-    #         if len(source_URIs) > 0 and len(destination_URIs) > 0:
-    #             v_uri_1, v_uri_2 = comb
-    #             URIs_false, names_false = self.sparql_end_point.get_predicates_and_their_names(v_uri_1, v_uri_2,
-    #                                                                                            nlimit=self.n_limit_EQuery)
-    #             URIs_true, names_true = self.sparql_end_point.get_predicates_and_their_names(v_uri_2, v_uri_1,
-    #                                                                                          nlimit=self.n_limit_EQuery)
-    #         if len(URIs_false) > 0 and len(URIs_true) > 0:
-    #             URIs_false = list(zip_longest(URIs_false, [False], fillvalue=False))
-    #             URIs_true = list(zip_longest(URIs_true, [True], fillvalue=True))
-    #             uris.extend(URIs_false + URIs_true)
-    #             names.extend(names_false + names_true)
-    #         elif (len(URIs_false) > 0):
-    #             URIs_false = list(zip_longest(URIs_false, [False], fillvalue=False))
-    #             uris.extend(URIs_false)
-    #             names.extend(names_false)
-    #         elif (len(URIs_true) > 0):
-    #             URIs_true = list(zip_longest(URIs_true, [True], fillvalue=True))
-    #             uris.extend(URIs_true)
-    #             names.extend(names_true)
 
     def predicate_linking(self, input, question):
         (source, destination, key, relation) = input

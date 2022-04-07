@@ -1,5 +1,4 @@
 from pyspark.sql import SparkSession
-
 from question import Question
 from linking import Linking
 from EndPoint import EndPoint
@@ -26,7 +25,7 @@ questions = [
     "How many moons does Mars have?"
 ]
 knowledge_graph = 'dbpedia'
-sparql_end_point = EndPoint(knowledge_graph, 'http://206.12.95.86:8890/sparql')
+sparql_end_point = EndPoint('dbpedia', 'http://206.12.95.86:8890/sparql')
 linking = Linking(sparql_end_point, n_limit_EQuery=limit_EQuery, n_max_Es=max_Es, n_max_Vs=max_Vs)
 
 
