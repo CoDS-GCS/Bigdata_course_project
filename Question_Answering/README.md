@@ -13,11 +13,5 @@ Challenges:
 2. Time constraints
 
 Solution:
-1. Parallelize the above-mentioned processes using SPARK functions.
-2. SPARK functions:
-   1. map()
-   2. aggregation()
-   3. limit()
-   4. min()
-   5. max()
-   6. orderby()
+1. Parallelize the task of linking where multiple small independent tasks are taking place. 
+2. We can use SPARK transformations, and SPARK thread pools. 
